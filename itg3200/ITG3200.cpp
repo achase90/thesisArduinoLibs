@@ -208,7 +208,7 @@ void ITG3200::setOffsets(int _Xoffset, int _Yoffset, int _Zoffset) {
   offsets[2] = _Zoffset;
 }
 
-void ITG3200::zeroCalibrate(unsigned int totSamples, unsigned int sampleDelayMS) {
+void ITG3200::zeroCalibrate(int totSamples, int sampleDelayMS) {
   float tmpOffsets[] = {0,0,0};
   int xyz[3];
 
@@ -309,7 +309,7 @@ void ITG3200::writemem(uint8_t _addr, uint8_t _val) {
   Wire.endTransmission(); // end transmission
 }
 
-void ITG3200::readmem(uint8_t _addr, uint8_t _nbytes, uint8_t __buff[]) {
+void ITG3200::readmem(uint8_t _addr, uint8_t _nbytes, int8_t __buff[]) {
   Wire.beginTransmission(_dev_address); // start transmission to device 
   //Wire.send(_addr); // sends register address to read from
   Wire.write(_addr); // sends register address to read from

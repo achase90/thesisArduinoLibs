@@ -161,7 +161,7 @@ public:
   void readGyroRaw( int *_GyroXYZ); // uncalibrated raw values
   void setScaleFactor(float _Xcoeff, float _Ycoeff, float _Zcoeff, bool _Radians);  // negative ciefficient = Reversed
   void setOffsets(int _Xoffset, int _Yoffset, int _Zoffset);
-  void zeroCalibrate(unsigned int totSamples, unsigned int sampleDelayMS);	// assuming gyroscope is stationary (updates XYZ offsets)
+  void zeroCalibrate(int totSamples, int sampleDelayMS);	// assuming gyroscope is stationary (updates XYZ offsets)
   void readGyroRawCal(int *_GyroX, int *_GyroY, int *_GyroZ); // raw value with offset
   void readGyroRawCal(int *_GyroXYZ); // raw value with offset
   void readGyro(float *_GyroX, float *_GyroY, float *_GyroZ); // deg/sec calibrated & ScaleFactor 
@@ -180,11 +180,11 @@ public:
   void setClockSource(byte _CLKsource); // see register parameters above
   
   void writemem(uint8_t _addr, uint8_t _val);
-  void readmem(uint8_t _addr, uint8_t _nbytes, uint8_t __buff[]);
+  void readmem(uint8_t _addr, uint8_t _nbytes, int8_t __buff[]);
   
 private:
 
   uint8_t _dev_address;
-  uint8_t _buff[6];      
+  int8_t _buff[6];      
 };
 #endif
