@@ -17,7 +17,11 @@
 #include <ADXL362.h>
 
 const int16_t slaveSelectPin = 52;
-const bool debugSerial = 1;
+const bool debugSerial = 0;
+int16_t XData;
+int16_t YData;
+int16_t ZData;
+int16_t Temp;
 
 ADXL362::ADXL362() {
 
@@ -86,7 +90,7 @@ int16_t ADXL362::readTemp(){
   if (debugSerial) {Serial.print("\tTEMP = "); Serial.print(TEMP); }
 }
 
-void ADXL362::readXYZTData(int16_t XData, int16_t YData, int16_t ZData, int16_t Temperature){
+void ADXL362::readXYZTData(int16_t &XData,int16_t & YData, int16_t & ZData, int16_t &Temp){
   
   // burst SPI read
   // A burst read of all three axis is required to guarantee all measurements correspond to same sample time
@@ -94,28 +98,20 @@ void ADXL362::readXYZTData(int16_t XData, int16_t YData, int16_t ZData, int16_t 
   SPI.transfer(0x0B);  // read instruction
   SPI.transfer(0x0E);  // Start at XData Reg
   XData = SPI.transfer(0x00);
- // Serial.print(XData,BIN);
-  int16_t xHi = SPI.transfer(0x00);
- // XData = XData + ((xHi  & 11110000) << 27);
- // Serial.print('\t');
- // Serial.print(XData,BIN);
-  //Serial.print('\t');
-  //XData = XData + ((xHi & 00001111) << 8);
-  XData = XData + (xHi << 8);
-  Serial.println(XData);
+  XData = XData + (SPI.transfer(0x00) << 8);
   YData = SPI.transfer(0x00);
   YData = YData + (SPI.transfer(0x00) << 8);
   ZData = SPI.transfer(0x00);
   ZData = ZData + (SPI.transfer(0x00) << 8);
-  Temperature = SPI.transfer(0x00);
-  Temperature = Temperature + (SPI.transfer(0x00) << 8);
+  Temp = SPI.transfer(0x00);
+  Temp = Temp + (SPI.transfer(0x00) << 8);
   digitalWrite(slaveSelectPin, HIGH);
   
   if (debugSerial) {
 	Serial.print(  ""); Serial.print(XData); 
 	Serial.print(  "\t"); Serial.print(YData); 
 	Serial.print(  "\t"); Serial.print(ZData); 
-	Serial.print(  "\t"); Serial.println(Temperature);
+	Serial.print(  "\t"); Serial.println(Temp);
 	}
 
 }

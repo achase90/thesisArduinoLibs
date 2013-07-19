@@ -32,7 +32,7 @@ public:
 	int16_t readXData();
 	int16_t readYData();
 	int16_t readZData();
-	void readXYZTData(int16_t XData, int16_t YData, int16_t ZData, int16_t Temperature);
+	void readXYZTData(int16_t &XData, int16_t &YData, int16_t &ZData, int16_t &Temperature);
 	int16_t readTemp();
 	
 	//
