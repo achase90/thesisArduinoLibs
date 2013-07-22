@@ -37,12 +37,7 @@ public:
 	
 	//
 	// Activity/Inactivity interrupt functions
-	//
-	void setupDCActivityInterrupt(int16_t threshold, byte time);	
-	void setupDCInactivityInterrupt(int16_t threshold, int16_t time);
-    void setupACActivityInterrupt(int16_t threshold, byte time);
-	void setupACInactivityInterrupt(int16_t threshold, int16_t time);
-	
+	//	
 	// need to add the following functions
 	// void mapINT1(
 	// void mapINT2

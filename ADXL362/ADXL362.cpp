@@ -54,7 +54,9 @@ void ADXL362::beginMeasure() {
   if (debugSerial) {Serial.print(  "Setting Measeurement Mode - Reg 2D before = "); Serial.print(temp); }
 
   // turn on measurement mode
-  byte tempwrite = temp | 0x02;			// turn on measurement bit in Reg 2D
+  //byte tempwrite = temp | 0x02;			// turn on measurement bit in Reg 2D
+    byte tempwrite = 10100010;			// turn on measurement bit in Reg 2D
+
   SPIwriteOneRegister(0x2D, tempwrite); // Write to POWER_CTL_REG, Measurement Mode
   delay(10);	
   
@@ -114,81 +116,6 @@ void ADXL362::readXYZTData(int16_t &XData,int16_t & YData, int16_t & ZData, int1
 	Serial.print(  "\t"); Serial.println(Temp);
 	}
 
-}
-
-
-
-void ADXL362::setupDCActivityInterrupt(int16_t threshold, byte time){
-  //  Setup motion and time thresholds
-  SPIwriteTwoRegisters(0x20, threshold);
-  SPIwriteOneRegister(0x22, time);
-
-  // turn on activity interrupt
-  byte ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);  // Read current reg value
-  ACT_INACT_CTL_Reg = ACT_INACT_CTL_Reg | (0x01);     // turn on bit 1, ACT_EN  
-  SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);       // Write new reg value 
-  ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);       // Verify properly written
-
-  if (debugSerial) {
-  Serial.print("DC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
-  Serial.print(", Time threshold set to ");  		Serial.print(SPIreadOneRegister(0x22)); 
-  Serial.print(", ACT_INACT_CTL Register is ");  	Serial.println(ACT_INACT_CTL_Reg, HEX);
-  }
-}
-
-void ADXL362::setupACActivityInterrupt(int16_t threshold, byte time){
-  //  Setup motion and time thresholds
-  SPIwriteTwoRegisters(0x20, threshold);
-  SPIwriteOneRegister(0x22, time);
-  
-  // turn on activity interrupt
-  byte ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);  // Read current reg value
-  ACT_INACT_CTL_Reg = ACT_INACT_CTL_Reg | (0x03);     // turn on bit 2 and 1, ACT_AC_DCB, ACT_EN  
-  SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);       // Write new reg value 
-  ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);       // Verify properly written
-
- if (debugSerial) {  
-  Serial.print("AC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
-  Serial.print(", Time Activity set to ");  		Serial.print(SPIreadOneRegister(0x22));  
-  Serial.print(", ACT_INACT_CTL Register is ");  Serial.println(ACT_INACT_CTL_Reg, HEX);
-  }
-}
-
-void ADXL362::setupDCInactivityInterrupt(int16_t threshold, int16_t time){
-  // Setup motion and time thresholds
-  SPIwriteTwoRegisters(0x23, threshold);
-  SPIwriteTwoRegisters(0x25, time);
-
-  // turn on inactivity interrupt
-  byte ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);   // Read current reg value 
-  ACT_INACT_CTL_Reg = ACT_INACT_CTL_Reg | (0x04);      // turn on bit 3, INACT_EN  
-  SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);        // Write new reg value 
-  ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);        // Verify properly written
-
- if (debugSerial) {
-  Serial.print("DC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
-  Serial.print(", Time Inactivity set to ");  Serial.print(SPIreadTwoRegisters(0x25));
-  Serial.print(", ACT_INACT_CTL Register is ");  Serial.println(ACT_INACT_CTL_Reg, HEX);
-  }
-}
-
-
-void ADXL362::setupACInactivityInterrupt(int16_t threshold, int16_t time){
-  //  Setup motion and time thresholds
-  SPIwriteTwoRegisters(0x23, threshold);
-  SPIwriteTwoRegisters(0x25, time);
- 
-  // turn on inactivity interrupt
-  byte ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);   // Read current reg value
-  ACT_INACT_CTL_Reg = ACT_INACT_CTL_Reg | (0x0C);      // turn on bit 3 and 4, INACT_AC_DCB, INACT_EN  
-  SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);        // Write new reg value 
-  ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);        // Verify properly written
-
- if (debugSerial) {
-  Serial.print("AC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
-  Serial.print(", Time Inactivity set to ");  Serial.print(SPIreadTwoRegisters(0x25)); 
-  Serial.print(", ACT_INACT_CTL Register is ");  Serial.println(ACT_INACT_CTL_Reg, HEX);
-  }
 }
 
 
