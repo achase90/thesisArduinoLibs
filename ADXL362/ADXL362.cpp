@@ -55,10 +55,15 @@ void ADXL362::beginMeasure() {
 
   // turn on measurement mode
   //byte tempwrite = temp | 0x02;			// turn on measurement bit in Reg 2D
-    byte tempwrite = 10100010;			// turn on measurement bit in Reg 2D
+    byte tempwrite = 0b00100010;			// turn on measurement bit in Reg 2D
 
   SPIwriteOneRegister(0x2D, tempwrite); // Write to POWER_CTL_REG, Measurement Mode
-  delay(10);	
+ // delay(10);	
+  
+byte    writeByte = 0b01010011;			// turn on measurement bit in Reg 2D
+
+ SPIwriteOneRegister(0x2C, writeByte); // Write to POWER_CTL_REG, Measurement Mode
+  //delay(10);	
   
   if (debugSerial) {
   temp = SPIreadOneRegister(0x2D);
