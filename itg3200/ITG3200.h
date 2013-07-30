@@ -116,17 +116,17 @@ class ITG3200 {
 
 public:
   float scalefactor[3];    // Scale Factor for gain and polarity
-  int offsets[3];
+  int16_t offsets[3];
 
   ITG3200();
   
   // Gyro initialization
-  void init(unsigned int address);
-  void init(unsigned int address, byte _SRateDiv, byte _Range, byte _filterBW, byte _ClockSrc, bool _ITGReady, bool _INTRawDataReady);      
+  void init(uint8_t address);
+  void init(uint8_t address, byte _SRateDiv, byte _Range, byte _filterBW, byte _ClockSrc, bool _ITGReady, bool _INTRawDataReady);      
     
   // Who Am I
   byte getDevAddr();
-  void setDevAddr(unsigned int _addr);
+  void setDevAddr(uint8_t _addr);
   // Sample Rate Divider
   byte getSampleRateDiv();          
   void setSampleRateDiv(byte _SampleRate);
@@ -157,13 +157,13 @@ public:
   bool isRawDataReady();
   // Gyro Sensors
   void readTemp(float *_Temp);  
-  void readGyroRaw( int *_GyroX, int *_GyroY, int *_GyroZ); // uncalibrated raw values
-  void readGyroRaw( int *_GyroXYZ); // uncalibrated raw values
+  void readGyroRaw( int16_t *_GyroX, int16_t *_GyroY, int16_t *_GyroZ); // uncalibrated raw values
+  void readGyroRaw( int16_t *_GyroXYZ); // uncalibrated raw values
   void setScaleFactor(float _Xcoeff, float _Ycoeff, float _Zcoeff, bool _Radians);  // negative ciefficient = Reversed
-  void setOffsets(int _Xoffset, int _Yoffset, int _Zoffset);
-  void zeroCalibrate(int totSamples, int sampleDelayMS);	// assuming gyroscope is stationary (updates XYZ offsets)
-  void readGyroRawCal(int *_GyroX, int *_GyroY, int *_GyroZ); // raw value with offset
-  void readGyroRawCal(int *_GyroXYZ); // raw value with offset
+  void setOffsets(int16_t _Xoffset, int16_t _Yoffset, int16_t _Zoffset);
+  void zeroCalibrate(int16_t totSamples, int16_t sampleDelayMS);	// assuming gyroscope is stationary (updates XYZ offsets)
+  void readGyroRawCal(int16_t *_GyroX, int16_t *_GyroY, int16_t *_GyroZ); // raw value with offset
+  void readGyroRawCal(int16_t *_GyroXYZ); // raw value with offset
   void readGyro(float *_GyroX, float *_GyroY, float *_GyroZ); // deg/sec calibrated & ScaleFactor 
   void readGyro(float *_GyroXYZ); // deg/sec calibrated & ScaleFactor  
   // Power management
