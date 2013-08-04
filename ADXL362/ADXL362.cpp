@@ -36,6 +36,7 @@ void ADXL362::begin() {
   pinMode(slaveSelectPin, OUTPUT);
   SPI.begin();
   SPI.setDataMode(SPI_MODE0);	//CPHA = CPOL = 0    MODE = 0
+  SPI.setClockDivider(slaveSelectPin,21);
   delay(1000);
     
   // soft reset
